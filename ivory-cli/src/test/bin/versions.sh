@@ -28,5 +28,8 @@ export IVORY_V5="1.0.0-cdh5-20150112052717-f20b962 2.11"
 # Last version before v4 metadata where keyed_set was introduced
 export IVORY_V6="1.0.0-cdh5-20150310005628-6e4e57 2.11"
 
+# Last version before v5 metadata where union expression was introduced
+export IVORY_V7="1.0.0-cdh5-20150319033835-0148f54 2.11"
+
 # The _first_ version that had the current metadata version - see 'dictionary-metadata' test
-export IVORY_BASELINE="1.0.0-cdh5-20150311033320-3eb8f01 2.11"
+export IVORY_BASELINE="1.0.0-cdh5-20150323045558-ad73232 2.11"
