@@ -19,6 +19,7 @@ class StateReduction(windowStart: Date, windowEnd: Date, reduction: Reduction) e
     factPrev.setYyyyMMdd(windowStart.underlying)
     factPrev.getFact.setValue(tombstone)
     factPrev.getFact.setEntity("UNKNOWN")
+    factPrev.getFact.setSeconds(0)
     first = true
   }
 
@@ -39,6 +40,7 @@ class StateReduction(windowStart: Date, windowEnd: Date, reduction: Reduction) e
     // We're lucky (or unlucky) that thrift will recreate the value object each time and so it's safe (for now) to do this
     factPrev.getFact.setValue(fact.toThrift.getValue)
     factPrev.setYyyyMMdd(fact.toNamespacedThrift.getYyyyMMdd)
+    factPrev.getFact.setSeconds(fact.toNamespacedThrift.getFact.getSeconds)
     ()
   }
 
