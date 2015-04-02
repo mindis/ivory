@@ -1,28 +1,25 @@
 MFLAGS = -s
 MAKEFLAGS = $(MFLAGS)
-SANDBOX = .cabal-sandbox
-DEPS = .cabal-sandbox/.cairn
+VERSION=0.11.1
+MKDOCS=../target/mkdocs-${VERSION}
+BIN=target/mkdocs-${VERSION}/bin/mkdocs
 
-.PHONY: deps repl build rewatch watch publish
+.PHONY: build watch
 
 default: watch
 
-${SANDBOX}:
-	cabal sandbox init
+../target:
+	mkdir ../target
 
-${DEPS}: ${SANDBOX} $(wildcard *.cabal)
-	cabal install -j --only-dependencies --enable-tests
-	cabal configure --enable-tests ${CABAL_FLAGS}
-	touch $@
+${MKDOCS}: ../target
+	cd ../target && curl https://pypi.python.org/packages/source/m/mkdocs/mkdocs-${VERSION}.tar.gz | tar xz
 
-repl: ${DEPS}
-	cabal configure && cabal build && cabal repl
+${BIN}: ${MKDOCS}
+	cd ${MKDOCS} && python setup.py build
+	cd ${MKDOCS} && python setup.py install --user --install-scripts=bin
 
-build: ${DEPS}
-	cabal configure && cabal build
+build: ${BIN}
+	cd ../ && ${BIN} build --clean
 
-watch: build
-	dist/build/guide/guide watch
-
-rewatch: build
-	dist/build/guide/guide clean && dist/build/guide/guide watch
+watch: ${BIN}
+	cd ../ && ${BIN} serve

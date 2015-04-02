@@ -1,0 +1,4 @@
+site_name: Ivory
+docs_dir: guide
+site_dir: _site
+theme: readthedocs
