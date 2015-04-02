@@ -1,7 +1,6 @@
----
-title: IvoryGuide
----
+Ivory Guide
+===========
 
 ### Table of Contents
 
-- [Install](src/install)
+- [Install](install)
