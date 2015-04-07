@@ -3,6 +3,7 @@ package com.ambiata.ivory.storage.lookup
 import com.ambiata.ivory.core._
 import com.ambiata.ivory.lookup._
 import scala.collection.JavaConverters._
+import scalaz._, Scalaz._
 
 object FeatureLookups {
 
@@ -53,7 +54,7 @@ object FeatureLookups {
     new EntityFilterLookup(features.map(_.toString).asJava, entities.asJava)
 
   def sparseMapToArray[A : scala.reflect.ClassTag](map: List[(Int, A)], default: A): Array[A] = {
-    val max = map.map(_._1).max
+    val max = map.map(_._1).maximum.getOrElse(-1)
     val array = Array.fill(max + 1)(default)
     map.foreach {
       case (i, a) => array(i) = a

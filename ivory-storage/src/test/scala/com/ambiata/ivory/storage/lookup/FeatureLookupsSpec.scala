@@ -3,6 +3,7 @@ package com.ambiata.ivory.storage.lookup
 import com.ambiata.ivory.storage.arbitraries.DictionaryWithoutKeyedSet
 import org.specs2.{ScalaCheck, Specification}
 import scala.collection.JavaConverters._
+import scalaz._, Scalaz._
 
 class FeatureLookupsSpec extends Specification with ScalaCheck { def is = s2"""
 
@@ -63,11 +64,11 @@ spareMapToArray
     table.getFlags.asScala.count(_._2) ==== array.filter(identity).length })
 
   // Using Byte just to speed up the test - otherwise we create some _really_ big arrays
-  def sparseMapToArray = prop((ls: List[(Byte, String)]) => ls.nonEmpty ==> {
+  def sparseMapToArray = prop((ls: List[(Byte, String)]) => {
     val l = ls.toMap.map { case (i, s) => Math.abs(i) -> s }
     // Using null here as a sentinel value that we know ScalaCheck won't generate for us
     val a = FeatureLookups.sparseMapToArray(l.toList, null)
-    (a.length, a.toList.filterNot(_ == null)) ==== ((l.maxBy(_._1)._1 + 1, l.toList.sortBy(_._1).map(_._2)))
+    (a.length, a.toList.filterNot(_ == null)) ==== ((l.toList.maximumBy(_._1).map(_._1).getOrElse(-1) + 1, l.toList.sortBy(_._1).map(_._2)))
   })
 
 }
