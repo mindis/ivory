@@ -1,8 +1,6 @@
----
-title: Install Ivory
----
+# Installing Ivory
 
-Set up these prerequisites:
+Set up these requirements:
 
 ## Java
 
